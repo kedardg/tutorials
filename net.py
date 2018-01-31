@@ -28,7 +28,7 @@ traj = pd.DataFrame(traj, columns=['v', 'g', 'theta', 'd'])
 traj['c'] = traj.d.apply(lambda x: 1 if x > 500 else 0)
 
 # plot data
-# plt.scatter(traj.v, traj.theta, c=traj.c)
+plt.scatter(traj.v, traj.theta, c=traj.c)
 
 # scale data between 1 and 0
 sc = StandardScaler()
@@ -65,6 +65,7 @@ def compute_cost(A, Y):
 
 def nn_model(X, Y, n_h, learning_rate, num_iterations=10000, print_cost=False):
 
+    np.random.seed(3)
     n_x = 2 # number of input features
     n_y = 1 # number of classes
     m = X.shape[1] # number of samples
@@ -107,13 +108,13 @@ def nn_model(X, Y, n_h, learning_rate, num_iterations=10000, print_cost=False):
             print("Cost after iteration %i: %f" % (i, cost))
 
         # Print the cost every 1000 iterations
-        if i % 5000 == 0:
+        if i % 1000 == 0:
             Z1 = np.dot(W1, traj[['v', 'theta']].T) + b1
             A1 = np.tanh(Z1)
             Z2 = np.dot(W2, A1) + b2
             A2 = sigmoid(Z2)
             yhat = np.round(A2)
-            plt.scatter(X.iloc[0,:], X.iloc[1,:], c=yhat.ravel()==Y.ravel(), alpha=.8, s=10)
+            plt.scatter(X.iloc[0,:], X.iloc[1,:], c=yhat.ravel()==Y.ravel(), alpha=.8, s=10, cmap='BuGn')
             plt.title('loss: {}'.format(cost))
             plt.pause(0.5)
             sleep(0.5)
