@@ -14,7 +14,7 @@ def compute_range(v, g, theta):
 
 velocities = range(0,200,5)
 g = [10]
-theta = range(-45,90,5)
+theta = range(-40,100,5)
 
 traj = []
 for x in itertools.product(velocities, g, theta):
@@ -28,7 +28,9 @@ traj = pd.DataFrame(traj, columns=['v', 'g', 'theta', 'd'])
 traj['c'] = traj.d.apply(lambda x: 1 if x > 500 else 0)
 
 # plot data
-plt.scatter(traj.v, traj.theta, c=traj.c)
+# plt.scatter(traj.v, traj.theta, c=traj.c, s=8)
+# plt.xlabel('V (m/s)')
+# plt.ylabel('Angle (Degrees')
 
 # scale data between 1 and 0
 sc = StandardScaler()
@@ -115,7 +117,9 @@ def nn_model(X, Y, n_h, learning_rate, num_iterations=10000, print_cost=False):
             A2 = sigmoid(Z2)
             yhat = np.round(A2)
             plt.scatter(X.iloc[0,:], X.iloc[1,:], c=yhat.ravel()==Y.ravel(), alpha=.8, s=10, cmap='BuGn')
-            plt.title('loss: {}'.format(cost))
+            plt.xlabel('V (m/s)')
+            plt.ylabel('Angle (Degrees')
+            plt.title('loss: {}'.format(int(cost)))
             plt.pause(0.5)
             sleep(0.5)
 
