@@ -1,0 +1,58 @@
+<head>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<style type="text/css">
+	* {
+	    font-family: courier;
+	  }
+
+	pre.code{
+ 		font-family: monospace;
+ 		font-weight: bold;
+ 		color: #666;
+  	}	
+	</style>
+</head>
+
+<body>
+<h1>How to encrypt data for sharing</h1>
+
+Use case: you want to share a .csv/.xlsx/.sav dataset with a colleague. We will be using an open standard called GNU Privacy Guard to do the encryption. Read more on the techicalities here. Why should you encrypt and how it works? Check out this <a href="https://medium.freecodecamp.org/how-does-pretty-good-privacy-work-3f5f75ecea97"> blog post! </a>
+
+<h2>Install GnuPG</h2>
+<ul style="list-style-type:disc">
+	<li>Download <a href="https://www.gnupg.org/download/index.html">GnuPG</a> and install it.</li>
+	<li>Open the command line and type the following command to make sure it is working.<pre class="code">gpg --help</pre></li>
+</ul>
+
+<h2>How to use</h2>
+<h3>Sender</h3>
+<ol style="list-style-type:disc">
+	<li>Ask to the reciver their public-key, then open the command line and import the sender's public key: <pre class="code">gpg --import name_of_pub_key_file</pre></li>
+	<li>check that the newly imported keys are in there: <pre class="code">gpg --list-keys</pre></li>
+	<li>Encrypt the file you want to share with their public-key:
+		<ol type="I">
+		<li>navigate to the folder where the file is: <pre class="code">cd path\to\folder\</pre></li>
+		<li>encrypt: <pre class="code">gpg --output myfile.txt.gpg --encrypt --recipient sender@senderdomain.com  myfile.txt</pre></li>
+		</ol>
+	</li>
+</ol>
+
+<h3>Receiver</h3>
+<ul style="list-style-type:disc">
+	<li>Generate a GPG key-pair: <pre class="code">gpg --gen-key</pre></li>
+	<li>Export public key to file: <pre class="code">gpg --armor --output mypubkey.gpg --export your.name@yourdomain.com</pre> and send it to sender.</li>
+	<li>Decrypt received encrypted file: <pre class="code">gpg --output myfile.txt --decrypt myfile.txt.gpg</pre></li>
+</ul>
+</body>
+
+<h2>Useful resources</h2>
+<li><a href="https://yanhan.github.io/posts/2017-09-27-how-to-use-gpg-to-encrypt-stuff.html"> Good tutorial.</a></li>
